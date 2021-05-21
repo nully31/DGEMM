@@ -31,7 +31,7 @@ int main(int argc, char *argv[]) {
     fp[1] = dgemm_avx2;
     fp[2] = dgemm_avx2_unroll;
     #if defined (__AVX512F__) || defined (__AVX512__)
-    nFunc = 4;
+    nFunc += 1;
     fp[3] = dgemm_avx512;
     #endif
 
