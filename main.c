@@ -5,7 +5,7 @@
 #include "dgemm.h"
 
 #define SIZE 512
-#define FUNC 4
+#define FUNC 5
 #define AVX_512_FUNC 1
 #define ALL_FUNC FUNC + AVX_512_FUNC
 
@@ -16,7 +16,7 @@ void checkResult(double ** restrict c, const int loop, const int size) {
         if (abs(c[0][i] - c[loop][i]) > epsilon) {
             match = 0;
             printf("results do not match!\n");
-            printf("Correct %5.2f\tResult %5.2f at current %d\n", c[0][i], c[loop][i], i);
+            printf("Correct %5.2f Result %5.2f at current %d\n\n", c[0][i], c[loop][i], i);
             break;
         }
     }
@@ -33,9 +33,10 @@ int main(int argc, char *argv[]) {
     fp[1] = dgemm_avx2;
     fp[2] = dgemm_avx2_unroll;
     fp[3] = dgemm_avx2_unroll_block;
+    fp[4] = dgemm_avx2_unroll_block_omp;
     #if defined (__AVX512F__) || defined (__AVX512__)
     nFunc += 1;
-    fp[4] = dgemm_avx512;
+    fp[5] = dgemm_avx512;
     #endif
 
 	int n = SIZE;
@@ -91,6 +92,9 @@ int main(int argc, char *argv[]) {
                 printf("executing dgemm_avx2_unroll_block...\n");
                 break;
             case 4:
+                printf("executing dgemm_avx2_unroll_block_omp...\n");
+                break;
+            case 5:
                 printf("executing dgemm_avx512...\n");
                 break;
             default:
