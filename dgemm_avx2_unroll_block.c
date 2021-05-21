@@ -5,7 +5,7 @@
 
 void do_block(double * restrict A, double * restrict B, double * restrict C, const int n,
 				const int si, const int sj, const int sk) {
-	for (int i = si; i < si + BLOCKSIZE; i += UNROLL * 4) {
+	for (int i = si; i < si + BLOCKSIZE; i += UNROLL * 4)
 		for (int j = sj; j < sj + BLOCKSIZE; j++) {
 			__m256d c[4];
 			for (int x = 0; x < UNROLL; x++)
@@ -19,7 +19,6 @@ void do_block(double * restrict A, double * restrict B, double * restrict C, con
 			}
 			for (int x = 0; x < UNROLL; x++)
 				_mm256_store_pd(C+i+x*4+j*n, c[x]);			/* C[i][j] = c[x] */
-		}
 	}
 }
 
