@@ -5,7 +5,7 @@
 #include "dgemm.h"
 
 #define SIZE 512
-#define FUNC 3
+#define FUNC 4
 #define AVX_512_FUNC 1
 #define ALL_FUNC FUNC + AVX_512_FUNC
 
@@ -27,14 +27,15 @@ void checkResult(double ** restrict c, const int loop, const int size) {
 int main(int argc, char *argv[]) {
     printf("%s starting...\n", argv[0]);
 
-    int nFunc = 3;
+    int nFunc = FUNC;
     void (*fp[ALL_FUNC])(double * restrict, double * restrict, double * restrict, const int);
     fp[0] = dgemm;
     fp[1] = dgemm_avx2;
     fp[2] = dgemm_avx2_unroll;
+    fp[3] = dgemm_avx2_unroll_block;
     #if defined (__AVX512F__) || defined (__AVX512__)
     nFunc += 1;
-    fp[3] = dgemm_avx512;
+    fp[4] = dgemm_avx512;
     #endif
 
 	int n = SIZE;
@@ -64,7 +65,7 @@ int main(int argc, char *argv[]) {
 	size_t nBytes = n * n * sizeof(double);
 	double *a = _mm_malloc(nBytes, 64);
 	double *b = _mm_malloc(nBytes, 64);
-    double **c = _mm_malloc(FUNC * nBytes, 64);
+    double **c = _mm_malloc(ALL_FUNC * nBytes, 64);
     for (int i = 0; i < nFunc; i++) {
         c[i] = _mm_malloc(nBytes, 64);
     }
@@ -87,6 +88,9 @@ int main(int argc, char *argv[]) {
                 printf("executing dgemm_avx2_unroll...\n");
                 break;
             case 3:
+                printf("executing dgemm_avx2_unroll_block...\n");
+                break;
+            case 4:
                 printf("executing dgemm_avx512...\n");
                 break;
             default:
