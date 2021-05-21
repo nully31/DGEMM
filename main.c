@@ -5,7 +5,9 @@
 #include "dgemm.h"
 
 #define SIZE 512
-#define FUNC 4
+#define FUNC 3
+#define AVX_512_FUNC 1
+#define ALL_FUNC FUNC + AVX_512_FUNC
 
 void checkResult(double ** restrict c, const int loop, const int size) {
     double epsilon = 1.0e-8;
@@ -26,7 +28,7 @@ int main(int argc, char *argv[]) {
     printf("%s starting...\n", argv[0]);
 
     int nFunc = 3;
-    void (*fp[FUNC])(double * restrict, double * restrict, double * restrict, const int);
+    void (*fp[ALL_FUNC])(double * restrict, double * restrict, double * restrict, const int);
     fp[0] = dgemm;
     fp[1] = dgemm_avx2;
     fp[2] = dgemm_avx2_unroll;
