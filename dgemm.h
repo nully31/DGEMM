@@ -4,6 +4,7 @@
 #include <immintrin.h>
 
 #define UNROLL 4
+#define UNROLL_512 UNROLL * 2
 #define BLOCKSIZE 32
 
 void dgemm(double * restrict, double * restrict, double * restrict, const int);
