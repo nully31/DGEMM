@@ -14,5 +14,6 @@ void dgemm_avx2_unroll_block_omp(double * restrict, double * restrict, double * 
 void dgemm_avx512(double * restrict, double * restrict, double * restrict, const int);
 void dgemm_avx512_unroll(double * restrict, double * restrict, double * restrict, const int);
 void dgemm_avx512_unroll_block(double * restrict, double * restrict, double * restrict, const int);
+void dgemm_avx512_unroll_block_omp(double * restrict, double * restrict, double * restrict, const int);
 
 #endif

@@ -6,7 +6,7 @@
 
 #define SIZE 1 << 9
 #define FUNC 5
-#define AVX_512_FUNC 3
+#define AVX_512_FUNC 4
 #define ALL_FUNC FUNC + AVX_512_FUNC
 
 void checkResult(double ** restrict c, const int loop, const int size) {
@@ -17,7 +17,7 @@ void checkResult(double ** restrict c, const int loop, const int size) {
         if (abs(ref[i] - c[loop][i]) > epsilon) {
             match = 0;
             printf("results do not match!\n");
-            printf("Correct %5.2f Result %5.2f at current %d\n\n", c[0][i], c[loop][i], i);
+            printf("Correct %5.2f Result %5.2f at current %d\n\n", ref[i], c[loop][i], i);
             break;
         }
     }
@@ -40,6 +40,7 @@ int main(int argc, char *argv[]) {
     fp[5] = dgemm_avx512;
     fp[6] = dgemm_avx512_unroll;
     fp[7] = dgemm_avx512_unroll_block;
+    fp[8] = dgemm_avx512_unroll_block_omp;
     #endif
 
 	int n = SIZE;
@@ -93,6 +94,9 @@ int main(int argc, char *argv[]) {
                 break;
             case 7:
                 printf("executing dgemm_avx512_unroll_block...\n");
+                break;
+            case 8:
+                printf("executing dgemm_avx512_unroll_block_omp...\n");
                 break;
             default:
                 break;
