@@ -9,7 +9,7 @@ main: $(OBJS)
 $(OBJS): dgemm.h
 
 test:
-	./main $(SIZE)
+	./main $(size)
 
 clean:
 	rm -f main *.o *~ tmp*
