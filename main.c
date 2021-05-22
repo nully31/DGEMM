@@ -4,7 +4,7 @@
 #include <stdbool.h>
 #include "dgemm.h"
 
-#define SIZE 512
+#define SIZE 1 << 9
 #define FUNC 5
 #define AVX_512_FUNC 2
 #define ALL_FUNC FUNC + AVX_512_FUNC
@@ -42,19 +42,7 @@ int main(int argc, char *argv[]) {
 
 	int n = SIZE;
     if (argc > 1) {
-        #if defined (__AVX512F__) || defined (__AVX512__)
-        if (atoi(argv[1]) % 8 != 0) {
-            fprintf(stderr, "Matrix size must be a multiple of 8 for AVX-512! ");
-        } else {
-            n = atoi(argv[1]);
-        }
-        #else
-        if (atoi(argv[1]) % 4 != 0) {
-            fprintf(stderr, "Matrix size must be a multiple of 4 for AVX2! ");
-        } else {
-            n = atoi(argv[1]);
-        }
-        #endif
+        n = 1 << atoi(argv[1]);
     }
     printf("Initializing matrices with size %d...\n", n);
 
