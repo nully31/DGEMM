@@ -44,7 +44,7 @@ int main(int argc, char *argv[]) {
     if (argc > 1) {
         n = 1 << atoi(argv[1]);
     }
-    printf("Initializing matrices with size %d...\n", n);
+    printf("Initializing matrices with size %d...\n\n", n);
 
     // allocate memory
 	/*
