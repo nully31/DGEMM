@@ -8,7 +8,7 @@ main: $(OBJS)
 
 $(OBJS): dgemm.h
 
-test:
+test: main
 	./main $(size)
 
 clean:
