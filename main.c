@@ -11,9 +11,10 @@
 
 void checkResult(double ** restrict c, const int loop, const int size) {
     double epsilon = 1.0e-8;
+    double *ref = c[0];
     bool match = 1;
     for (int i = 0; i < size * size; i++) {
-        if (abs(c[0][i] - c[loop][i]) > epsilon) {
+        if (abs(ref[i] - c[loop][i]) > epsilon) {
             match = 0;
             printf("results do not match!\n");
             printf("Correct %5.2f Result %5.2f at current %d\n\n", c[0][i], c[loop][i], i);
@@ -99,7 +100,7 @@ int main(int argc, char *argv[]) {
         double dtime = - omp_get_wtime();
         fp[i](a, b, c[i], n);
         dtime += omp_get_wtime();
-        printf("done, elapsed time: %.2f sec, ", dtime);
+        printf("done, elapsed time: %.3f sec, ", dtime);
         if (i != 0) checkResult(c, i, n);
         else printf("\n\n");
     }
