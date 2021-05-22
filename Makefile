@@ -4,11 +4,14 @@ SRCS=$(wildcard *.c)
 OBJS=$(SRCS:.c=.o)
 
 main: $(OBJS)
-		$(CC) -o main $(OBJS) $(CFLAGS)
+	$(CC) -o main $(OBJS) $(CFLAGS)
 
 $(OBJS): dgemm.h
 
+test:
+	./main
+
 clean:
-		rm -f main *.o *~ tmp*
+	rm -f main *.o *~ tmp*
 
 .PHONY: clean
