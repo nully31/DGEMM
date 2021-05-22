@@ -6,7 +6,7 @@
 
 #define SIZE 1 << 9
 #define FUNC 5
-#define AVX_512_FUNC 2
+#define AVX_512_FUNC 3
 #define ALL_FUNC FUNC + AVX_512_FUNC
 
 void checkResult(double ** restrict c, const int loop, const int size) {
@@ -38,6 +38,7 @@ int main(int argc, char *argv[]) {
     nFunc = ALL_FUNC;
     fp[5] = dgemm_avx512;
     fp[6] = dgemm_avx512_unroll;
+    fp[7] = dgemm_avx512_unroll_block;
     #endif
 
 	int n = SIZE;
@@ -88,6 +89,9 @@ int main(int argc, char *argv[]) {
                 break;
             case 6:
                 printf("executing dgemm_avx512_unroll...\n");
+                break;
+            case 7:
+                printf("executing dgemm_avx512_unroll_block...\n");
                 break;
             default:
                 break;
