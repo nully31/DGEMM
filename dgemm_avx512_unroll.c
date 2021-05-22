@@ -3,7 +3,7 @@
 void dgemm_avx512_unroll(double * restrict A, double * restrict B, double * restrict C, const int n) {
 	for (int i = 0; i < n; i += UNROLL_512 * 8) {
 		for (int j = 0; j < n; j++) {
-			__m512d c[8];
+			__m512d c[UNROLL_512];
 			for (int x = 0; x < UNROLL_512; x++)
 				c[x] = _mm512_load_pd(C+i+x*8+j*n);	/* cij = C[i][j] */
 
