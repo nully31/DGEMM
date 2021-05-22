@@ -1,7 +1,5 @@
 #include "dgemm.h"
 
-#define UNROLL (4)
-
 void dgemm_avx2_unroll(double * restrict A, double * restrict B, double * restrict C, const int n) {
 	for (int i = 0; i < n; i += UNROLL * 4)
 		for (int j = 0; j < n; j++) {

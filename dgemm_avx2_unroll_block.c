@@ -1,8 +1,5 @@
 #include "dgemm.h"
 
-#define UNROLL (4)
-#define BLOCKSIZE 32
-
 void do_block(double * restrict A, double * restrict B, double * restrict C, const int n,
 				const int si, const int sj, const int sk) {
 	for (int i = si; i < si + BLOCKSIZE; i += UNROLL * 4)
