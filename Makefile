@@ -14,4 +14,4 @@ test: main
 clean:
 	rm -f main *.o *~ tmp*
 
-.PHONY: clean
+.PHONY: test clean
