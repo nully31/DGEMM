@@ -4,7 +4,7 @@ static void do_block(double * restrict A, double * restrict B, double * restrict
 				const int si, const int sj, const int sk) {
 	for (int i = si; i < si + BLOCKSIZE; i += UNROLL * 4)
 		for (int j = sj; j < sj + BLOCKSIZE; j++) {
-			__m256d c[4];
+			__m256d c[UNROLL];
 			for (int x = 0; x < UNROLL; x++)
 				c[x] = _mm256_load_pd(C+i+x*4+j*n); 		/* c[x] = C[i][j] */
 

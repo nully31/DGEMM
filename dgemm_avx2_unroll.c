@@ -3,7 +3,7 @@
 void dgemm_avx2_unroll(double * restrict A, double * restrict B, double * restrict C, const int n) {
 	for (int i = 0; i < n; i += UNROLL * 4)
 		for (int j = 0; j < n; j++) {
-			__m256d c[4];
+			__m256d c[UNROLL];
 			for (int x = 0; x < UNROLL; x++)
 				c[x] = _mm256_load_pd(C+i+x*4+j*n);
 
