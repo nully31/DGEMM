@@ -1,6 +1,6 @@
 #include "dgemm.h"
 
-void do_block_512(double * restrict A, double * restrict B, double * restrict C, const int n,
+static void do_block(double * restrict A, double * restrict B, double * restrict C, const int n,
 					const int si, const int sj, const int sk) {
 	for (int i = si; i < si + BLOCKSIZE; i += UNROLL * 8) {
 		for (int j = sj; j < sj + BLOCKSIZE; j++) {
@@ -25,7 +25,7 @@ void dgemm_avx512_unroll_block(double * restrict A, double * restrict B, double 
 	for (int si = 0; si < n; si += BLOCKSIZE) {
 		for (int sj = 0; sj < n; sj += BLOCKSIZE) {
 			for (int sk = 0; sk < n; sk += BLOCKSIZE) {
-				do_block_512(A, B, C, n, si, sj, sk);
+				do_block(A, B, C, n, si, sj, sk);
 			}
 		}
 	}

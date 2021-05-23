@@ -1,6 +1,6 @@
 #include "dgemm.h"
 
-void do_block(double * restrict A, double * restrict B, double * restrict C, const int n,
+static void do_block(double * restrict A, double * restrict B, double * restrict C, const int n,
 				const int si, const int sj, const int sk) {
 	for (int i = si; i < si + BLOCKSIZE; i += UNROLL * 4)
 		for (int j = sj; j < sj + BLOCKSIZE; j++) {
