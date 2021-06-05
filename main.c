@@ -5,7 +5,7 @@
 #include "dgemm.h"
 
 #define SIZE 1 << 9
-#define FUNC 5
+#define FUNC 6
 #define AVX_512_FUNC 4
 #define ALL_FUNC FUNC + AVX_512_FUNC
 
@@ -31,16 +31,17 @@ int main(int argc, char *argv[]) {
     int nFunc = FUNC;
     void (*fp[ALL_FUNC])(double * restrict, double * restrict, double * restrict, const int);
     fp[0] = dgemm;
-    fp[1] = dgemm_avx2;
-    fp[2] = dgemm_avx2_unroll;
-    fp[3] = dgemm_avx2_unroll_block;
-    fp[4] = dgemm_avx2_unroll_block_omp;
+    fp[1] = dgemm_block;
+    fp[2] = dgemm_avx2;
+    fp[3] = dgemm_avx2_unroll;
+    fp[4] = dgemm_avx2_unroll_block;
+    fp[5] = dgemm_avx2_unroll_block_omp;
     #if defined (__AVX512F__) || defined (__AVX512__)
     nFunc = ALL_FUNC;
-    fp[5] = dgemm_avx512;
-    fp[6] = dgemm_avx512_unroll;
-    fp[7] = dgemm_avx512_unroll_block;
-    fp[8] = dgemm_avx512_unroll_block_omp;
+    fp[6] = dgemm_avx512;
+    fp[7] = dgemm_avx512_unroll;
+    fp[8] = dgemm_avx512_unroll_block;
+    fp[9] = dgemm_avx512_unroll_block_omp;
     #endif
 
 	int n = SIZE;
@@ -75,27 +76,30 @@ int main(int argc, char *argv[]) {
                 printf("executing dgemm...\n");
                 break;
             case 1:
-                printf("executing dgemm_avx2...\n");
+                printf("executing dgemm_block...\n");
                 break;
             case 2:
-                printf("executing dgemm_avx2_unroll...\n");
+                printf("executing dgemm_avx2...\n");
                 break;
             case 3:
-                printf("executing dgemm_avx2_unroll_block...\n");
+                printf("executing dgemm_avx2_unroll...\n");
                 break;
             case 4:
-                printf("executing dgemm_avx2_unroll_block_omp...\n");
+                printf("executing dgemm_avx2_unroll_block...\n");
                 break;
             case 5:
-                printf("executing dgemm_avx512...\n");
+                printf("executing dgemm_avx2_unroll_block_omp...\n");
                 break;
             case 6:
-                printf("executing dgemm_avx512_unroll...\n");
+                printf("executing dgemm_avx512...\n");
                 break;
             case 7:
-                printf("executing dgemm_avx512_unroll_block...\n");
+                printf("executing dgemm_avx512_unroll...\n");
                 break;
             case 8:
+                printf("executing dgemm_avx512_unroll_block...\n");
+                break;
+            case 9:
                 printf("executing dgemm_avx512_unroll_block_omp...\n");
                 break;
             default:

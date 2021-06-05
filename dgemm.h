@@ -7,6 +7,7 @@
 #define BLOCKSIZE 32
 
 void dgemm(double * restrict, double * restrict, double * restrict, const int);
+void dgemm_block(double * restrict A, double * restrict B, double * restrict C, const int n);
 void dgemm_avx2(double * restrict, double * restrict, double * restrict, const int);
 void dgemm_avx2_unroll(double * restrict, double * restrict, double * restrict, const int);
 void dgemm_avx2_unroll_block(double * restrict, double * restrict, double * restrict, const int);
