@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <omp.h>
 #include <stdbool.h>
+#include <cblas.h>
 #include "dgemm.h"
 
 #define SIZE 1 << 9
@@ -9,9 +10,8 @@
 #define AVX_512_FUNC 4
 #define ALL_FUNC FUNC + AVX_512_FUNC
 
-void checkResult(double ** restrict c, const int loop, const int size) {
+void checkResult(double *ref, double ** restrict c, const int loop, const int size) {
     double epsilon = 1.0e-8;
-    double *ref = c[0];
     bool match = 1;
     for (int i = 0; i < size * size; i++) {
         if (abs(ref[i] - c[loop][i]) > epsilon) {
@@ -63,11 +63,19 @@ int main(int argc, char *argv[]) {
     for (int i = 0; i < nFunc; i++) {
         c[i] = _mm_malloc(nBytes, 64);
     }
+    double *blas = _mm_malloc(nBytes, 64);
 
 	for (int i = 0; i < n * n; i++) {
 		a[i] = rand() % 10;
 		b[i] = rand() % 10;
 	}
+
+    // execute dgemm from blas library
+    printf("executing blas...\n");
+    double dtime = - omp_get_wtime();
+    cblas_dgemm(CblasColMajor, CblasNoTrans, CblasNoTrans, n, n, n, 1.0, a, n, b, n, 1.0, blas, n);
+    dtime += omp_get_wtime();
+    printf("done, elapsed time: %.3f sec\n\n", dtime);
 
     // execute dgemm kernels
     for (int i = 0; i < nFunc; i++) {
@@ -105,12 +113,11 @@ int main(int argc, char *argv[]) {
             default:
                 break;
         }
-        double dtime = - omp_get_wtime();
+        dtime = - omp_get_wtime();
         fp[i](a, b, c[i], n);
         dtime += omp_get_wtime();
         printf("done, elapsed time: %.3f sec, ", dtime);
-        if (i != 0) checkResult(c, i, n);
-        else printf("\n\n");
+        checkResult(blas, c, i, n);
     }
 
 	return 0;
