@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <omp.h>
 #include <stdbool.h>
 #include <cblas.h>
@@ -62,18 +63,25 @@ int main(int argc, char *argv[]) {
     double **c = _mm_malloc(ALL_FUNC * nBytes, 64);
     for (int i = 0; i < nFunc; i++) {
         c[i] = _mm_malloc(nBytes, 64);
+        memset(c[i], 0, nBytes);
     }
-    double *blas = _mm_malloc(nBytes, 64);
+    double *blas_a = _mm_malloc(nBytes, 64);
+    double *blas_b = _mm_malloc(nBytes, 64);
+    double *blas_c = _mm_malloc(nBytes, 64);
+    memset(blas_c, 0, nBytes);
 
 	for (int i = 0; i < n * n; i++) {
-		a[i] = rand() % 10;
-		b[i] = rand() % 10;
+		a[i] = i % 10;
+		b[i] = (i + 1) % 10;
 	}
+
+    memcpy(blas_a, a, nBytes);
+    memcpy(blas_b, b, nBytes);
 
     // execute dgemm from blas library
     printf("executing blas...\n");
     double dtime = - omp_get_wtime();
-    cblas_dgemm(CblasColMajor, CblasNoTrans, CblasNoTrans, n, n, n, 1.0, a, n, b, n, 1.0, blas, n);
+    cblas_dgemm(CblasColMajor, CblasNoTrans, CblasNoTrans, n, n, n, 1.0, blas_a, n, blas_b, n, 1.0, blas_c, n);
     dtime += omp_get_wtime();
     printf("done, elapsed time: %.3f sec\n\n", dtime);
 
@@ -117,7 +125,7 @@ int main(int argc, char *argv[]) {
         fp[i](a, b, c[i], n);
         dtime += omp_get_wtime();
         printf("done, elapsed time: %.3f sec, ", dtime);
-        checkResult(blas, c, i, n);
+        checkResult(blas_c, c, i, n);
     }
 
 	return 0;
