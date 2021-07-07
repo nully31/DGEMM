@@ -1,7 +1,14 @@
 CC=gcc
-CFLAGS=-std=c11 -g -mavx2 -mavx512f -fopenmp -O3 -lblas -lcblas
-SRCS=$(wildcard *.c)
-OBJS=$(SRCS:.c=.o)
+ifndef avx512
+CFLAGS=-std=c11 -g -mavx2 -fopenmp -O3 -lblas -lcblas
+EXC:=$(wildcard dgemm_avx512*)
+SRCS:=$(filter-out $(EXC), $(wildcard *.c))
+else
+CFLAGS=-std=c11 -g -mavx2 -fopenmp -O3 -lblas -lcblas -mavx512f
+SRCS:=$(wildcard *.c)
+endif
+OBJS:=$(SRCS:.c=.o)
+
 
 main: $(OBJS)
 	$(CC) -o main $(OBJS) $(CFLAGS)
@@ -14,4 +21,4 @@ test: main
 clean:
 	rm -f main *.o *~ tmp*
 
-.PHONY: test clean
+.PHONY: test clean avx512
