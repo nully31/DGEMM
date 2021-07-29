@@ -17,4 +17,9 @@ void dgemm_avx512_unroll(double * restrict, double * restrict, double * restrict
 void dgemm_avx512_unroll_block(double * restrict, double * restrict, double * restrict, const int);
 void dgemm_avx512_unroll_block_omp(double * restrict, double * restrict, double * restrict, const int);
 
+static double calcMmulFLOPS(int nElem, double dtime) {
+    double cost = 2.0 * nElem;
+    return cost * nElem * nElem / dtime / 1.0e+9;
+}
+
 #endif

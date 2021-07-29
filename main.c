@@ -124,7 +124,7 @@ int main(int argc, char *argv[]) {
         dtime = - omp_get_wtime();
         fp[i](a, b, c[i], n);
         dtime += omp_get_wtime();
-        printf("done, elapsed time: %.3f sec, ", dtime);
+        printf("done, elapsed time: %.3f sec, %.2f GFLOPS, ", dtime, calcMmulFLOPS(n, dtime));
         checkResult(blas_c, c, i, n);
     }
 
