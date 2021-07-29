@@ -1,5 +1,5 @@
 # DGEMM
-Basic DGEMM (Double-precision GEneral Matrix Multiplication) kernels with a bunch of optimizations such as SIMD vectorization, loop unrolling, blocking and multi-threading.
+DGEMM (Double-precision GEneral Matrix Multiplication) kernels with a bunch of basic optimizations such as SIMD vectorization, loop unrolling, blocking and multi-threading.
 
 ## Prerequisites
 * CBLAS (For details, see: http://www.netlib.org/blas/)
