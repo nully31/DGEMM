@@ -83,7 +83,7 @@ int main(int argc, char *argv[]) {
     double dtime = - omp_get_wtime();
     cblas_dgemm(CblasColMajor, CblasNoTrans, CblasNoTrans, n, n, n, 1.0, blas_a, n, blas_b, n, 1.0, blas_c, n);
     dtime += omp_get_wtime();
-    printf("done, elapsed time: %.3f sec\n\n", dtime);
+    printf("done, elapsed time: %.3f sec, %.2f GFLOPS.\n\n", dtime, calcMmulFLOPS(n, dtime));
 
     // execute dgemm kernels
     for (int i = 0; i < nFunc; i++) {
