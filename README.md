@@ -15,4 +15,4 @@ DGEMM (Double-precision GEneral Matrix Multiplication) kernels with a bunch of b
 ## Usage
 Use `make run` to build and run the kernels. To enable AVX-512 versions, build with `make avx512=1` and run.
 
-You can also specify the size of <img src="https://latex.codecogs.com/svg.latex?n" title="n" /> with <code>make run size=*(a power of 2)*</code>.
+You can also specify the size <img src="https://latex.codecogs.com/svg.latex?n" title="n" /> of the matrices with <code>make run size=*(a power of 2)*</code>.
