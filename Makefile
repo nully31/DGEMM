@@ -15,10 +15,10 @@ main: $(OBJS)
 
 $(OBJS): dgemm.h
 
-test: main
+run: main
 	./main $(size)
 
 clean:
 	rm -f main *.o *~ tmp*
 
-.PHONY: test clean avx512
+.PHONY: run clean avx512
