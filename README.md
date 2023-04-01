@@ -1,4 +1,7 @@
 # DGEMM
+
+[![GLWTPL](https://img.shields.io/badge/GLWT-Public_License-red.svg)](https://github.com/me-shaon/GLWTPL)
+
 DGEMM (Double-precision GEneral Matrix Multiplication) kernels with a bunch of basic optimizations such as SIMD vectorization, loop unrolling, blocking and multi-threading.
 
 ## Prerequisites
